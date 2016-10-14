@@ -12,10 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-public class Interface extends AppCompatActivity implements View.OnClickListener{
+public class Interface extends AppCompatActivity{
     private ImageView pou, agua, comida;
-    private int qtcomida, qtagua;
+    private int qtcomida = 100, qtagua = 100;
     private SharedPreferences settings;
 
     @Override
@@ -34,35 +35,47 @@ public class Interface extends AppCompatActivity implements View.OnClickListener
         settings = getSharedPreferences(ServiceClass.PREFS_NAME, 0);
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.pou)
-        {
+    //@Override
+//    public void onClick(View v) {
+//        if(v.getId() == R.id.pou)
+//        {
+//
+//        }
+//        if(v.getId() == R.id.agua)
+//        {
+//            AddAgua(10);
+//        }
+//        if(v.getId() == R.id.comida)
+//        {
+//            AddComida(10);
+//        }
+//    }
 
-        }
-        if(v.getId() == R.id.agua)
-        {
-            AddAgua(10);
-        }
-        if(v.getId() == R.id.comida)
-        {
-            AddComida(10);
-        }
+    public void Food(View v){
+        AddComida(10);
+    }
+
+    public void Water(View v){
+        AddAgua(10);
     }
 
     private void AddComida(int add){
         qtcomida = settings.getInt("comida", 100);
+        qtagua = settings.getInt("agua", 100);
         qtcomida += add;
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("comida", qtcomida);
         editor.commit();
+        Toast.makeText(this, "AGUA: " + qtagua + ", COMIDA: " + qtcomida, Toast.LENGTH_SHORT).show();
     }
 
     private void AddAgua(int add){
-        qtcomida = settings.getInt("agua", 100);
-        qtcomida += add;
+        qtcomida = settings.getInt("comida", 100);
+        qtagua = settings.getInt("agua", 100);
+        qtagua += add;
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("agua", qtcomida);
+        editor.putInt("agua", qtagua);
         editor.commit();
+        Toast.makeText(this, "AGUA: " + qtagua + ", COMIDA: " + qtcomida, Toast.LENGTH_SHORT).show();
     }
 }

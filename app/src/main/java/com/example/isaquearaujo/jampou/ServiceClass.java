@@ -37,20 +37,27 @@ public class ServiceClass extends LoopService{
 
     @Override
     protected void Update() {
-        Log.d("DEBUG", "UPDATE");
-
         qtagua = settings.getInt("agua", 100);
         qtcomida = settings.getInt("comida", 100);
 
+        if(qtcomida <= 0 && qtagua <= 0)
+            return;
+
         qtagua -= 10;
         qtcomida -= 10;
+
+        if(qtagua < 0)
+            qtagua = 0;
+        if(qtcomida < 0)
+            qtcomida = 0;
+
+        Toast.makeText(this, "AGUA: " + qtagua + ", COMIDA: " + qtcomida, Toast.LENGTH_SHORT).show();
 
         if(qtagua == 10 || qtcomida == 10){
             NotificationCompat.Builder body = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("To morreno")
                     .setContentText("Mim da " + (qtagua == 10 ? "agua" : "comida"));
-
             int mNotificationId = 001;
             NotificationManager mNotifyMgr =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -63,7 +70,7 @@ public class ServiceClass extends LoopService{
 
         editor.commit();
 
-        if(qtagua <= 0|| qtcomida <= 0)
-            StopThis();
+//        if(qtagua <= 0|| qtcomida <= 0)
+//            StopThis();
     }
 }
